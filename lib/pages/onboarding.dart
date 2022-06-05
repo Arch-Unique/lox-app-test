@@ -13,7 +13,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 2), () {
-      Get.to(RegistrationPage());
+      Get.off(RegistrationPage());
     });
     super.initState();
   }
@@ -26,17 +26,22 @@ class _OnboardingPageState extends State<OnboardingPage> {
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            const Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text(
-                  "Skip",
-                  style: TextStyle(
-                      fontSize: 16,
-                      fontFamily: "Nunito",
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xFFA9A7A7)),
+            GestureDetector(
+              onTap: () {
+                Get.off(RegistrationPage());
+              },
+              child: const Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    "Skip",
+                    style: TextStyle(
+                        fontSize: 16,
+                        fontFamily: "Nunito",
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFFA9A7A7)),
+                  ),
                 ),
               ),
             ),
@@ -45,6 +50,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
             ),
             Image.asset(
               "assets/images/charcohi.png",
+              fit: BoxFit.fill,
               width: Get.width,
             ),
             const SizedBox(

@@ -1,4 +1,6 @@
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 /// This file consists of all the constants in this project
@@ -13,6 +15,21 @@ enum LOXtextTypes {
 
 class Lox {
   static const Color primaryColor = Color(0xFF1648CE);
+  static const Color textColor = Color(0xFF091F44);
+  static const monthNames = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ];
 
   static Widget iconImage(String a) {
     return SizedBox(
@@ -23,6 +40,45 @@ class Lox {
         width: 24,
         height: 24,
       ),
+    );
+  }
+
+  static Widget smallSocialContainer(String a, String b, String c,
+      {Color? col}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SvgPicture.asset(
+          "assets/svgs/$a.svg",
+          color: col ?? primaryColor,
+        ),
+        const SizedBox(
+          width: 8,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              b,
+              style: const TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 12,
+                fontWeight: FontWeight.w400,
+                color: Color(0xFF394D6D),
+              ),
+            ),
+            Text(
+              c,
+              style: const TextStyle(
+                fontFamily: 'Montserrat',
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF091F44),
+              ),
+            ),
+          ],
+        )
+      ],
     );
   }
 
@@ -52,6 +108,19 @@ class Lox {
               fontSize: 14,
             )),
       ),
+    );
+  }
+
+  static Container fitImage(String a) {
+    return Container(
+      width: Get.width,
+      height: Get.height * 0.21,
+      decoration: BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage(a),
+              fit: BoxFit.fill,
+              colorFilter: ColorFilter.mode(
+                  Lox.primaryColor.withOpacity(0.69), BlendMode.srcOver))),
     );
   }
 
@@ -88,16 +157,145 @@ class Lox {
     );
   }
 
+  static AppBar defBackAppBar({Function? func}) {
+    return AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        leading: IconButton(
+            onPressed: () {
+              func == null ? Get.back() : func();
+            },
+            icon: const Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            )));
+  }
+
+  static Widget textTile(
+      {String a = "Seun Olumide", String b = "Nurse", bool isCont = true}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          a,
+          style: const TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF091F44),
+          ),
+        ),
+        Text(
+          b,
+          style: const TextStyle(
+            fontFamily: 'Montserrat',
+            fontSize: 12,
+            fontWeight: FontWeight.w400,
+            color: Color(0xFF091F44),
+          ),
+        ),
+        isCont
+            ? Lox.smallSocialContainer("people", "Patients", "345+")
+            : const SizedBox(),
+      ],
+    );
+  }
+
+  static Widget defTableRow(Widget a, Widget b) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [a, const Spacer(), b],
+      ),
+    );
+  }
+
+  static Widget defIconText(Widget icon, Text a, {bool isFront = false}) {
+    return Text.rich(TextSpan(children: [
+      WidgetSpan(
+          child: isFront ? icon : a, alignment: PlaceholderAlignment.middle),
+      WidgetSpan(
+          child: isFront ? a : icon, alignment: PlaceholderAlignment.middle),
+    ]));
+  }
+
+  static Widget defCell({String? a, String? b, String? c}) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0, bottom: 48, left: 8, right: 8),
+      child: Row(
+        children: [
+          const Text("Seun Olumide \n\$250",
+              style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF3E3E50))),
+          const Spacer(),
+          const Text("1",
+              style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xFF3E3E50)))
+        ],
+      ),
+    );
+  }
+
+  static Widget defCalendarHeader() {
+    final today = DateTime.now();
+    final month = monthNames[today.month - 1];
+    String day = today.day > 9 ? today.day.toString() : "0${today.day}";
+
+    return defTableRow(
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "$month $day, ${today.year}",
+              style: const TextStyle(
+                  fontFamily: 'Montserrat',
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xFF929CAD)),
+            ),
+            const SizedBox(
+              height: 4,
+            ),
+            const Text("Today",
+                style: const TextStyle(
+                    fontFamily: 'Montserrat',
+                    fontWeight: FontWeight.w600,
+                    fontSize: 20)),
+          ],
+        ),
+        defButton(null, "+ Add", brad: 90, isWide: false, vpad: 8, hpad: 24));
+  }
+
+  static Widget defDottedButton(String a) {
+    return DottedBorder(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0),
+        child: Row(
+          children: [const Spacer(), Text(a), const Spacer()],
+        ),
+      ),
+      borderType: BorderType.RRect,
+      radius: const Radius.circular(8),
+    );
+  }
+
   static Widget defButton(
     Widget? screen,
     String data, {
     Color bcolor = primaryColor,
     bool isWide = true,
+    double hpad = 48,
+    double vpad = 10,
     bool isBorder = false,
     bool porr = false,
     double brad = 8,
+    double fsize = 16,
     bool shdStay = false,
     String icon = "",
+    bool isF = true,
     Function? func,
   }) {
     bool isPressed = false;
@@ -127,19 +325,28 @@ class Lox {
             ? loadingIndicator()
             : icon != ""
                 ? Text.rich(TextSpan(children: [
-                    WidgetSpan(
-                      child: iconImage(icon),
-                      alignment: PlaceholderAlignment.middle,
-                    ),
+                    isF
+                        ? WidgetSpan(
+                            child: iconImage(icon),
+                            alignment: PlaceholderAlignment.middle,
+                          )
+                        : TextSpan(),
                     TextSpan(
-                      text: "  $data",
+                      text: "  $data  ",
                       style: TextStyle(
                           color: bcolor != Colors.white
                               ? Colors.white
                               : primaryColor,
+                          fontFamily: 'Montserrat',
                           fontWeight: FontWeight.w400,
-                          fontSize: 17),
-                    )
+                          fontSize: fsize),
+                    ),
+                    isF
+                        ? TextSpan()
+                        : WidgetSpan(
+                            child: iconImage(icon),
+                            alignment: PlaceholderAlignment.middle,
+                          ),
                   ]))
                 : Text(
                     data,
@@ -148,7 +355,8 @@ class Lox {
                             ? Colors.white
                             : primaryColor,
                         fontWeight: FontWeight.w400,
-                        fontSize: 17),
+                        fontFamily: 'Montserrat',
+                        fontSize: fsize),
                   ),
         style: ButtonStyle(
           minimumSize: MaterialStateProperty.all<Size?>(
@@ -162,7 +370,7 @@ class Lox {
                     : BorderSide.none),
           ),
           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 48)),
+              EdgeInsets.symmetric(vertical: vpad, horizontal: hpad)),
         ),
       );
     });
