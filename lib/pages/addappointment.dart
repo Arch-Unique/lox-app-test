@@ -18,24 +18,24 @@ class _AddAppointmentPageState extends State<AddAppointmentPage> {
   Widget build(BuildContext context) {
     return SizedBox(
       height: Get.height - 120,
-      child: Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Lox.defCalendarHeader(),
-            const SizedBox(
-              height: 24,
-            ),
-            Expanded(child: CalendarPicker2()),
-            Padding(
-                padding: EdgeInsets.all(16),
-                child: Lox.defDottedButton("Add Appointment")),
-            const SizedBox(
-              height: 48,
-            )
-          ],
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Lox.defCalendarHeader(),
+          ),
+          const SizedBox(
+            height: 24,
+          ),
+          Expanded(child: CalendarPicker2()),
+          Padding(
+              padding: EdgeInsets.all(20),
+              child: Lox.defDottedButton("Add Appointment")),
+          const SizedBox(
+            height: 48,
+          )
+        ],
       ),
     );
   }

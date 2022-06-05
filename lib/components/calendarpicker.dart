@@ -333,7 +333,7 @@ class _CalendarPicker2State extends State<CalendarPicker2> {
                       });
                     },
                     child: Container(
-                      padding: EdgeInsets.all(16),
+                      padding: EdgeInsets.all(8),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
